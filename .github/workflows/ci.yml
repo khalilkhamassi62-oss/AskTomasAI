@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main, initial-setup]
+  pull_request:
+    branches: [main]
+
+jobs:
+  client:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        working-directory: client
+        run: npm ci
+
+      - name: Lint
+        working-directory: client
+        run: npm run lint
+
+      - name: Type Check
+        working-directory: client
+        run: npm run type-check
+
+      - name: Test
+        working-directory: client
+        run: npm run test
+
+      - name: Build
+        working-directory: client
+        run: npm run build
